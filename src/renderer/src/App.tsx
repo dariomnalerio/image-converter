@@ -1,3 +1,4 @@
+import { Format } from '@shared/types'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { MdDelete } from 'react-icons/md'
@@ -7,7 +8,6 @@ import SelectFormat from './components/select-format'
 import SettingsModal from './components/settings-modal'
 import { Button } from './components/ui'
 import { errorAtom, filesAtom, globalFormatAtom, modalOpenAtom, savePathAtom } from './store/atoms'
-import { Format } from './types'
 import { cn } from './utils'
 
 function App(): JSX.Element {

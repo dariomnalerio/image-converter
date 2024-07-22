@@ -1,4 +1,5 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
+import { Format } from '@shared/types'
 import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import path from 'path'
 import icon from '../../resources/icon.png?asset'
@@ -6,6 +7,7 @@ import {
   convertImage,
   getSavePath,
   initializeSettingsAndDirectories,
+  openDirectory,
   savePath,
   selectDirectoryDialog,
   selectFiles
@@ -66,10 +68,11 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('convert-image', (_event, { filePath, format }) => convertImage({ filePath, format }))
-  ipcMain.handle('dialog:openFile', selectDirectoryDialog)
+  ipcMain.handle('dialog:select-directory', selectDirectoryDialog)
+  ipcMain.handle('dialog:open-files', (_event, format: Format) => selectFiles(format))
   ipcMain.handle('save-path', savePath)
   ipcMain.handle('get-save-path', getSavePath)
-  ipcMain.handle('dialog:openFiles', (_event, format: 'jpeg' | 'png' | 'webp') => selectFiles(format))
+  ipcMain.handle('open-directory', (_event, path: string) => openDirectory(path))
   createWindow()
 
   app.on('activate', function () {

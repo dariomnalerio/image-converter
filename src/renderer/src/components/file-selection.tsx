@@ -1,9 +1,9 @@
 import { errorAtom, filesAtom, globalFormatAtom, modalOpenAtom, savePathAtom } from '@renderer/store/atoms'
-import { Format } from '@renderer/types'
 import { getErrorMessage } from '@renderer/utils'
+import { Format } from '@shared/types'
 import { useAtom } from 'jotai'
 import { IoOpenOutline } from 'react-icons/io5'
-import { Button, Select } from './ui'
+import { Button, Divider, Select } from './ui'
 
 const FileSelection = () => {
   const [globalFormat, setGlobalFormat] = useAtom(globalFormatAtom)
@@ -26,7 +26,6 @@ const FileSelection = () => {
     }
 
     const files = result.files
-    console.log(files)
 
     setFiles(files)
   }
@@ -51,6 +50,15 @@ const FileSelection = () => {
     }
   }
 
+  const handleOpenSaveDir = async () => {
+    if (!savePath) {
+      setModalOpen(true)
+      return
+    }
+
+    await window.context.openDirectory(savePath)
+  }
+
   const convertString = files.length > 1 ? 'Convert files' : 'Convert file'
 
   return (
@@ -71,11 +79,15 @@ const FileSelection = () => {
             {convertString}
           </Button>
         </div>
-        <Button className="bg-background-100 hover:bg-background-100/90 p-1 flex gap-2 items-center justify-center">
-          Open directory
+        <Button
+          className="bg-background-100 hover:bg-background-100/90 p-1 px-2 flex gap-2 items-center justify-center"
+          onClick={handleOpenSaveDir}
+        >
+          Open save folder
           <IoOpenOutline className="h-6 w-6 text-text-700" />
         </Button>
       </div>
+      <Divider className="mt-1.5" />
     </div>
   )
 }

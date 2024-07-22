@@ -1,4 +1,5 @@
-import { dialog } from 'electron'
+import { File, Format } from '@shared/types'
+import { dialog, shell } from 'electron'
 import path from 'path'
 
 export async function selectDirectoryDialog(): Promise<string | null> {
@@ -12,7 +13,7 @@ export async function selectDirectoryDialog(): Promise<string | null> {
   return null
 }
 
-export async function selectFiles(format: 'jpeg' | 'png' | 'webp') {
+export async function selectFiles(format: Format) {
   const result = await dialog.showOpenDialog({
     title: 'Select files',
     properties: ['openFile', 'multiSelections'],
@@ -26,7 +27,7 @@ export async function selectFiles(format: 'jpeg' | 'png' | 'webp') {
     }
   }
 
-  const files = result.filePaths.map((filePath) => {
+  const files: File[] = result.filePaths.map((filePath) => {
     const name = path.basename(filePath)
     return {
       path: filePath,
@@ -41,4 +42,12 @@ export async function selectFiles(format: 'jpeg' | 'png' | 'webp') {
     files
   }
   return newResponse
+}
+
+export async function openDirectory(path: string) {
+  try {
+    await shell.openPath(path)
+  } catch (error) {
+    console.error(error)
+  }
 }

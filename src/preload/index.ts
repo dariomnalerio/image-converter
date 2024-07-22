@@ -7,10 +7,11 @@ if (!process.contextIsolated) {
 try {
   contextBridge.exposeInMainWorld('context', {
     convertImage: (filePath, format) => ipcRenderer.invoke('convert-image', { filePath, format }),
-    openFile: () => ipcRenderer.invoke('dialog:openFile'),
+    selectDirectory: () => ipcRenderer.invoke('dialog:select-directory'),
     savePath: (path) => ipcRenderer.invoke('save-path', path),
     getSavePath: () => ipcRenderer.invoke('get-save-path'),
-    openFiles: (format) => ipcRenderer.invoke('dialog:openFiles', format)
+    openFiles: (format) => ipcRenderer.invoke('dialog:open-files', format),
+    openDirectory: (path) => ipcRenderer.invoke('open-directory', path)
   })
 } catch (error) {
   console.error(error)

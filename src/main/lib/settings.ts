@@ -22,7 +22,6 @@ export async function getSavePath() {
       return userDataPath
     }
 
-    console.log(`Loaded savePath from settings: ${settings.savePath ?? userDataPath}`)
     return settings.savePath || userDataPath
   } catch (error) {
     console.error('Error reading settings file:', error)
@@ -40,7 +39,6 @@ export async function savePath(_event, savePath: string) {
     }
 
     fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2), 'utf-8')
-    console.log(`Saved settings to ${settingsPath}`)
   } catch (error) {
     console.error('Error saving settings:', error)
     // @ts-ignore: Ignore TypeScript error for 'unknown' type of 'error'
@@ -52,20 +50,19 @@ export async function initializeSettingsAndDirectories() {
   try {
     const imagesDir = getImagesDir()
     const settingsPath = getSettingsPath()
-    console.log(`Images directory: ${imagesDir}`)
 
     await fs.ensureDir(imagesDir)
 
     const settingsExist = await fs.pathExists(settingsPath)
-    console.log(`Settings file directory: ${settingsExist}`)
 
     if (!settingsExist) {
       const initialSettings = {
         savePath: imagesDir
       }
 
-      await fs.writeJson(settingsPath, initialSettings, { spaces: 2 })
-      console.log(`Created initial settings file at ${settingsPath}`)
+      await fs.writeJson(settingsPath, initialSettings, { spaces: 2 })(
+        `Created initial settings file at ${settingsPath}`
+      )
     }
   } catch (error) {
     console.error('Error initializing app:', error)

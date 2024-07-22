@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import { modalOpenAtom, savePathAtom } from '../store/atoms'
-import { Button } from './ui'
+import { Button, Divider } from './ui'
 
 const SettingsModal: React.FC = () => {
   const [modalOpen, setModalOpen] = useAtom(modalOpenAtom)
@@ -37,7 +37,7 @@ const SettingsModal: React.FC = () => {
 
   const handleChooseDirectory = async () => {
     try {
-      const filePath = await window.context.openFile()
+      const filePath = await window.context.selectDirectory()
       if (filePath) {
         setError('')
         setSavePathState(filePath)
@@ -58,7 +58,7 @@ const SettingsModal: React.FC = () => {
       <div className="bg-background-900 p-8 min-h-[500px] min-w-[700px] rounded-md shadow-lg flex  flex-col">
         <div className="flex-1">
           <h2 className="text-lg font-bold mb-2">Settings</h2>
-          <div className="w-full bg-background-200 h-1 rounded-r-md rounded-l-md"></div>
+          <Divider />
           {/* Settings */}
           <div className="mt-6">
             <div className="flex items-center gap-5 w-full justify-between">
