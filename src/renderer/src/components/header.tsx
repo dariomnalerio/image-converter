@@ -1,4 +1,4 @@
-import { errorAtom, filesAtom, globalFormatAtom, modalOpenAtom, savePathAtom } from '@renderer/store/atoms'
+import { countAtom, errorAtom, filesAtom, globalFormatAtom, modalOpenAtom, savePathAtom } from '@renderer/store/atoms'
 import { formats, getErrorMessage } from '@renderer/utils'
 import { Format } from '@shared/types'
 import { useAtom } from 'jotai'
@@ -12,6 +12,7 @@ const Header = () => {
   const [, setModalOpen] = useAtom(modalOpenAtom)
   const [savePath] = useAtom(savePathAtom)
   const [, setError] = useAtom(errorAtom)
+  const [, setCount] = useAtom(countAtom)
 
   const handleChooseFilesClick = async (event: React.MouseEvent) => {
     if (!savePath) {
@@ -38,9 +39,12 @@ const Header = () => {
         return
       }
 
-      // if files are already converted, return
+      // if files are already converted change them to pending
       if (files.every((file) => file.converted !== 'none')) {
-        return
+        setFiles((prevFiles) => prevFiles.map((f) => ({ ...f, converted: 'none' as const })))
+        // wait 1 second
+        await new Promise((resolve) => setTimeout(resolve, 500))
+        setCount(0)
       }
 
       for (const file of files) {
