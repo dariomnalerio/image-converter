@@ -1,11 +1,12 @@
 import { errorAtom, filesAtom, globalFormatAtom, modalOpenAtom, savePathAtom } from '@renderer/store/atoms'
-import { getErrorMessage } from '@renderer/utils'
+import { formats, getErrorMessage } from '@renderer/utils'
 import { Format } from '@shared/types'
 import { useAtom } from 'jotai'
 import { IoOpenOutline } from 'react-icons/io5'
-import { Button, Divider, Select } from './ui'
+import SelectFormat from './select-format'
+import { Button, Divider } from './ui'
 
-const FileSelection = () => {
+const Header = () => {
   const [globalFormat, setGlobalFormat] = useAtom(globalFormatAtom)
   const [files, setFiles] = useAtom(filesAtom)
   const [, setModalOpen] = useAtom(modalOpenAtom)
@@ -31,22 +32,36 @@ const FileSelection = () => {
   }
 
   const handleConvert = async () => {
-    for (const file of files) {
-      setFiles((prevFiles) =>
-        prevFiles.map((f) => (f.path === file.path ? { ...f, converted: 'pending' as const } : f))
-      )
-
-      const response = await window.context.convertImage(file.path, file.outputFormat)
-
-      if (!response.success) {
-        const error = getErrorMessage(response.error as string)
-        setError(error)
+    try {
+      if (!savePath) {
+        setModalOpen(true)
+        return
       }
-      setFiles((prevFiles) =>
-        prevFiles.map((f) =>
-          f.path === file.path ? { ...f, converted: response.success ? ('success' as const) : ('error' as const) } : f
+
+      // if files are already converted, return
+      if (files.every((file) => file.converted !== 'none')) {
+        return
+      }
+
+      for (const file of files) {
+        setFiles((prevFiles) =>
+          prevFiles.map((f) => (f.path === file.path ? { ...f, converted: 'pending' as const } : f))
         )
-      )
+
+        const response = await window.context.convertImage(file.path, file.outputFormat)
+
+        if (!response.success) {
+          const error = getErrorMessage(response.error as string)
+          setError(error)
+        }
+        setFiles((prevFiles) =>
+          prevFiles.map((f) =>
+            f.path === file.path ? { ...f, converted: response.success ? ('success' as const) : ('error' as const) } : f
+          )
+        )
+      }
+    } catch (error) {
+      setError('Error converting image')
     }
   }
 
@@ -61,16 +76,20 @@ const FileSelection = () => {
 
   const convertString = files.length > 1 ? 'Convert files' : 'Convert file'
 
+  const options = formats
+
   return (
     <div className="flex flex-col gap-3 py-5 px-4 font-semibol">
       <div className="flex gap-5 items-center justify-between">
         <div className="flex gap-5">
-          <Button onClick={handleChooseFilesClick}>Select Files</Button>
-          <Select value={globalFormat} onChange={(e) => setGlobalFormat(e.target.value as Format)}>
-            <option value="jpeg">JPEG</option>
-            <option value="png">PNG</option>
-            <option value="webp">WebP</option>
-          </Select>
+          <Button onClick={handleChooseFilesClick}>Select files</Button>
+
+          <SelectFormat
+            value={globalFormat}
+            onChangeValue={(value) => setGlobalFormat(value as Format)}
+            options={options}
+          />
+
           <Button
             onClick={handleConvert}
             disabled={files.length === 0 || !savePath}
@@ -79,6 +98,7 @@ const FileSelection = () => {
             {convertString}
           </Button>
         </div>
+
         <Button
           className="bg-background-100 hover:bg-background-100/90 p-1 px-2 flex gap-2 items-center justify-center"
           onClick={handleOpenSaveDir}
@@ -92,4 +112,4 @@ const FileSelection = () => {
   )
 }
 
-export default FileSelection
+export default Header

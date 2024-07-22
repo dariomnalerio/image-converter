@@ -41,12 +41,12 @@ const SettingsModal: React.FC = () => {
       if (filePath) {
         setError('')
         setSavePathState(filePath)
-      } else if (filePath === null) {
-        setSavePathState('')
-        setError('Please select a directory')
+      } else if (filePath === null && savePath) {
+        setSavePathState(savePath)
+        setError('')
       } else {
         setSavePathState('')
-        setError('Failed to open directory')
+        setError('Please select a directory')
       }
     } catch (error) {
       console.error('Failed to open directory dialog:', error)

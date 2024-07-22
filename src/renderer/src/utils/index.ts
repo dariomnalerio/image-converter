@@ -1,3 +1,4 @@
+import { Format } from '@shared/types'
 import { ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -12,3 +13,5 @@ export const getErrorMessage = (error: string) => {
 
   return 'Unexpected error. Please try again or report an issue on GitHub.'
 }
+
+export const formats: Format[] = ['jpeg', 'png', 'webp']
