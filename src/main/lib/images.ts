@@ -1,14 +1,22 @@
+import { getUniqueOutputPath } from '@/utils'
 import path from 'path'
 import sharp from 'sharp'
 import { getSavePath } from './settings'
 
 export async function convertImage({ filePath, format }) {
   try {
-    const savePath = await getSavePath()
+    // const savePath = await getSavePath()
 
+    // const outputDir = savePath || path.dirname(filePath)
+    // const outputFileName = `${path.basename(filePath, path.extname(filePath))}.${format}`
+    // const outputPath = path.join(outputDir, outputFileName)
+    // await sharp(filePath).toFormat(format).toFile(outputPath)
+
+    const savePath = await getSavePath()
     const outputDir = savePath || path.dirname(filePath)
-    const outputFileName = `${path.basename(filePath, path.extname(filePath))}.${format}`
-    const outputPath = path.join(outputDir, outputFileName)
+    const baseName = path.basename(filePath, path.extname(filePath))
+    const outputPath = await getUniqueOutputPath(outputDir, baseName, format)
+
     await sharp(filePath).toFormat(format).toFile(outputPath)
 
     return { success: true, outputPath }
