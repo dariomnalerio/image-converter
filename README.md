@@ -1,6 +1,6 @@
 # Image Converter
 
-Image Converteris a simple yet powerful application designed for converting images between various formats.
+Image Converter is a simple yet powerful application designed for converting images between various formats.
 
 ## Features
 
