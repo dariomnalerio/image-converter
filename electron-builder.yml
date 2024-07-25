@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: image-converter
+productName: Image Converter
 directories:
   buildResources: build
 files:
@@ -13,7 +13,7 @@ asarUnpack:
   - resources/**
   - node_modules/sharp/**/*
 win:
-  executableName: image-converter
+  executableName: Image Converter
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
