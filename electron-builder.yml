@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: note-mark
+productName: image-converter
 directories:
   buildResources: build
 files:
@@ -11,8 +11,9 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+  - node_modules/sharp/**/*
 win:
-  executableName: note-mark
+  executableName: image-converter
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
