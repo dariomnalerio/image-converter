@@ -2,7 +2,8 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { Format } from '@shared/types'
 import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import path from 'path'
-import icon from '../../resources/icon.png?asset'
+import icoIcon from '../../resources/icon.ico?asset'
+import pngIcon from '../../resources/icon.png?asset'
 import {
   convertImage,
   getSavePath,
@@ -20,12 +21,13 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    resizable: false,
     show: false,
+    icon: icoIcon,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    ...(process.platform === 'linux' ? { pngIcon } : {}),
     center: true,
     title: 'Image Converter',
-    backgroundColor: 'rgb(2 6 23 / 0.5);',
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       sandbox: true,

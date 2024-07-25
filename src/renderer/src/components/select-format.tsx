@@ -8,9 +8,9 @@ type SelectFormatProps = {
 
 const SelectFormat = ({ value, onChangeValue, options }: SelectFormatProps) => {
   return (
-    <Select value={value} onChange={(e) => onChangeValue(e.target.value)}>
+    <Select value={value} onChange={(e) => onChangeValue(e.target.value)} className="font-medium">
       {options.map((option) => (
-        <option key={option} value={option}>
+        <option key={option} value={option} className="font-medium">
           {option}
         </option>
       ))}

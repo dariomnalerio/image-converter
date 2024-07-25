@@ -39,10 +39,8 @@ const Header = () => {
         return
       }
 
-      // if files are already converted change them to pending
       if (files.every((file) => file.converted !== 'none')) {
         setFiles((prevFiles) => prevFiles.map((f) => ({ ...f, converted: 'none' as const })))
-        // wait 1 second
         await new Promise((resolve) => setTimeout(resolve, 500))
         setCount(0)
       }
@@ -86,7 +84,9 @@ const Header = () => {
     <div className="flex flex-col gap-3 py-5 px-4 font-semibol">
       <div className="flex gap-5 items-center justify-between">
         <div className="flex gap-5">
-          <Button onClick={handleChooseFilesClick}>Select files</Button>
+          <Button className="font-semibold px-2" onClick={handleChooseFilesClick}>
+            Select files
+          </Button>
 
           <SelectFormat
             value={globalFormat}
@@ -97,14 +97,14 @@ const Header = () => {
           <Button
             onClick={handleConvert}
             disabled={files.length === 0 || !savePath}
-            className="bg-primary-400 hover:bg-primary-400/90 font-semibold w-32"
+            className="bg-primary-400 hover:bg-primary-400/90 font-medium w-32"
           >
             {convertString}
           </Button>
         </div>
 
         <Button
-          className="bg-background-100 hover:bg-background-100/90 p-1 px-2 flex gap-2 items-center justify-center"
+          className="bg-background-100 hover:bg-background-100/90 p-1.5 px-2 flex gap-2 items-center justify-center font-medium"
           onClick={handleOpenSaveDir}
         >
           Open save folder

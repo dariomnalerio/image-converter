@@ -63,12 +63,12 @@ const SettingsModal: React.FC = () => {
           <div className="mt-6">
             <div className="flex items-center gap-5 w-full justify-between">
               <div className="flex-1">
-                <label className="text-sm font-bold">Save location</label>
+                <label className="text-sm font-semibold">Save location</label>
                 {typeof savePathState === 'string' && (
                   <p className="text-sm truncate max-w-full mt-2 ml-0.5">{savePathState}</p>
                 )}
               </div>
-              <Button onClick={handleChooseDirectory} className="mt-5">
+              <Button onClick={handleChooseDirectory} className="mt-5 font-medium px-2">
                 Change directory
               </Button>
             </div>
@@ -82,7 +82,7 @@ const SettingsModal: React.FC = () => {
 
         <div className="flex justify-end pt-10">
           <Button
-            className="bg-primary-400 hover:bg-primary-400/90 px-4 rounded-md text-text-900"
+            className="bg-primary-400 hover:bg-primary-400/90 px-4 rounded-md text-text-900 font-medium"
             onClick={handleSaveSettings}
           >
             Save

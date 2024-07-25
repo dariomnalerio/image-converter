@@ -60,9 +60,8 @@ export async function initializeSettingsAndDirectories() {
         savePath: imagesDir
       }
 
-      await fs.writeJson(settingsPath, initialSettings, { spaces: 2 })(
-        `Created initial settings file at ${settingsPath}`
-      )
+      await fs.writeJson(settingsPath, initialSettings, { spaces: 2 })
+      console.log(`Created initial settings file at ${settingsPath}`)
     }
   } catch (error) {
     console.error('Error initializing app:', error)
