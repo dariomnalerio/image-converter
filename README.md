@@ -10,6 +10,13 @@ Image Converteris a simple yet powerful application designed for converting imag
 - **Batch Conversion:** Convert multiple images at once.
 - **High Quality:** Maintains the quality of images during conversion.
 
+## Installation
+
+### Windows
+
+1. **Download the Installer:** Download the latest version of the installer from the [Releases](https://github.com/dariomnalerio/image-converter/releases)
+2. **Run the Installer:** Run the installer and follow the on-screen instructions to install the application.
+
 ## Building the Application
 
 ### Prerequisites
