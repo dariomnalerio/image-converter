@@ -31,7 +31,7 @@ Image Converter is a simple yet powerful application designed for converting ima
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/image-converter.git
+   git clone https://github.com/dariomnalerio/image-converter.git
    cd image-converter
 
 2. **Install Dependencies:**
